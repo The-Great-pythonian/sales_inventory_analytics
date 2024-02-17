@@ -1,7 +1,7 @@
 import streamlit
 import pandas as pd
 import numpy
-from matplotlib import pyplot
+import matplotlib
 
 # ENSURE YOUR CSV FILE are CAPITILsed including Column to make it easy to match , = UPPER(A1)
 # forced the  USER INPUT to capitalise   Str.upper()
@@ -152,10 +152,10 @@ def stock_qty(passvalue1):
         y = df_fetch_vis['QTY_IN_STOCK']
         x = df_fetch_vis['DESC']
 
-        fig, ax = pyplot.subplots()
+        fig, ax = matplotlib.pyplot.subplots()
         ax.bar(x, y, width=0.25)
-        pyplot.xticks(rotation='vertical')
-        streamlit.pyplot(fig)
+        matplotlib.pyplot.xticks(rotation='vertical')
+        streamlit.matplotlib.pyplot(fig)
     else:
         return 'wrong password'
 def profit_track(passvalue2):
@@ -166,16 +166,16 @@ def profit_track(passvalue2):
         b = df_fetch_vis['TOTAL_SALES_AMOUNT'].values.tolist()
         r = numpy.arange(len(df_fetch_vis['BULK_PRICE']))
         width = 0.25
-        fig, ax = pyplot.subplots()
+        fig, ax = matplotlib.pyplot.subplots()
         ax.bar(r, a, width=width, label='Total cost price')
         ax.bar(r + width, b, width=width, label='gross sales')
-        pyplot.xlabel('items')
-        pyplot.ylabel('Amount in Naira')
-        pyplot.title('Tracking gross sale vs cospt price for Profit')
+        matplotlib.pyplot.xlabel('items')
+        matplotlib.pyplot.ylabel('Amount in Naira')
+        matplotlib.pyplot.title('Tracking gross sale vs cospt price for Profit')
         c = df_fetch_vis['DESC'].values.tolist()
-        pyplot.xticks(r + width / 2, c, rotation=90)
-        pyplot.legend()
-        streamlit.pyplot(fig)
+        matplotlib.pyplot.xticks(r + width / 2, c, rotation=90)
+        matplotlib.pyplot.legend()
+        streamlit.matplotlib.pyplot(fig)
     else:
         return 'wrong password'
 
@@ -184,9 +184,9 @@ def storepix (passvalue3):
         df_fetch_store = pd.read_csv('Stock.csv')
         data= df_fetch_store['DESC'].value_counts()
         mylabel= df_fetch_store['DESC']
-        fig, ax = pyplot.subplots()
+        fig, ax = matplotlib.pyplot.subplots()
         ax.pie(data,labels= mylabel)
-        streamlit.pyplot(fig)
+        streamlit.matplotlib.pyplot(fig)
     else:
         return 'wrong password'
 
