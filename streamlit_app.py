@@ -1,18 +1,9 @@
 import streamlit
 import pandas as pd
 import numpy
-import matplotlib
+from matplotlib import pyplot
 
-# ENSURE YOUR CSV FILE are CAPITILsed including Column to make it easy to match , = UPPER(A1)
-# forced the  USER INPUT to capitalise   Str.upper()
-# Ensure your CSV HAS NO WHITESAPCE iN  btw COL NAME -GIVES KEY ERROR
-# REMOVE WHITE SPACE FROM ALL VALUES IN CSV  = strip(A1)
-# remove white space from user entry str.strip()
-# create function to handle button
-#files are  blogo stock,stock_main,salesrecord,salesrecord_bk salestemprecord
 
-#hot selling items, sales vol per time,
-# stock taking qty v item,
 # mutiple bar amount made v investment
 
 
@@ -152,10 +143,10 @@ def stock_qty(passvalue1):
         y = df_fetch_vis['QTY_IN_STOCK']
         x = df_fetch_vis['DESC']
 
-        fig, ax = matplotlib.pyplot.subplots()
+        fig, ax = pyplot.subplots()
         ax.bar(x, y, width=0.25)
-        matplotlib.pyplot.xticks(rotation='vertical')
-        streamlit.matplotlib.pyplot(fig)
+        pyplot.xticks(rotation='vertical')
+        streamlit.pyplot(fig)
     else:
         return 'wrong password'
 def profit_track(passvalue2):
@@ -166,16 +157,16 @@ def profit_track(passvalue2):
         b = df_fetch_vis['TOTAL_SALES_AMOUNT'].values.tolist()
         r = numpy.arange(len(df_fetch_vis['BULK_PRICE']))
         width = 0.25
-        fig, ax = matplotlib.pyplot.subplots()
+        fig, ax = pyplot.subplots()
         ax.bar(r, a, width=width, label='Total cost price')
         ax.bar(r + width, b, width=width, label='gross sales')
-        matplotlib.pyplot.xlabel('items')
-        matplotlib.pyplot.ylabel('Amount in Naira')
-        matplotlib.pyplot.title('Tracking gross sale vs cospt price for Profit')
+        pyplot.xlabel('items')
+        pyplot.ylabel('Amount in Naira')
+        pyplot.title('Tracking gross sale vs cospt price for Profit')
         c = df_fetch_vis['DESC'].values.tolist()
-        matplotlib.pyplot.xticks(r + width / 2, c, rotation=90)
-        matplotlib.pyplot.legend()
-        streamlit.matplotlib.pyplot(fig)
+        pyplot.xticks(r + width / 2, c, rotation=90)
+        pyplot.legend()
+        streamlit.pyplot(fig)
     else:
         return 'wrong password'
 
@@ -184,9 +175,9 @@ def storepix (passvalue3):
         df_fetch_store = pd.read_csv('Stock.csv')
         data= df_fetch_store['DESC'].value_counts()
         mylabel= df_fetch_store['DESC']
-        fig, ax = matplotlib.pyplot.subplots()
+        fig, ax = pyplot.subplots()
         ax.pie(data,labels= mylabel)
-        streamlit.matplotlib.pyplot(fig)
+        streamlit.pyplot(fig)
     else:
         return 'wrong password'
 
@@ -561,15 +552,20 @@ def main():
 
     # upload stock
     streamlit.title(' upload new stock')
+
+    dflast_stcok_id = pd.read_csv('Stock.csv')
+    dflast_stcok_id = dflast_stcok_id['STOCK_ID'].iloc[-1]
+    Next_stcok_id = dflast_stcok_id + 1
+    streamlit.write('the next stock id is:', Next_stcok_id)
+
     with streamlit.form("myform", clear_on_submit=True):
-        Enter_stk_id = streamlit.number_input('enter stock category id', min_value=0, max_value=1000000, value=0,
-                                              step=1, key='sitemid')
-        Enter_stk_id = int(Enter_stk_id)
+        # # Enter_stk_id = streamlit.number_input('enter stock category id', min_value=0, max_value=1000000, value=0,
+        # #                                       step=1, key='sitemid')
+        # Enter_stk_id = int(Enter_stk_id)
         # fect curent stock id
-        dflast_stcok_id = pd.read_csv('Stock.csv')
-        dflast_stcok_id = dflast_stcok_id['STOCK_ID'].iloc[-1]
-        Next_stcok_id = dflast_stcok_id + 1
-        streamlit.write('the next stock id is:', Next_stcok_id)
+        Enter_stk_id = Next_stcok_id
+        Enter_stk_id = int(Enter_stk_id)
+
 
         Enter_stk_items = streamlit.text_input('enter stock category name', value="", key='stckitems')
         Enter_stk_items_cl = Enter_stk_items.upper().strip()  # pass an upper
