@@ -1,0 +1,50 @@
+SALES_ID,ITEMS,STOCK_ID,ITEMS_DES,UNIT_PRICE,QTY,DISCOUNT,PRICE,NOTES,TIMER
+0,RESERVERD,555,RESERVERD,0,0,0,0,RESERVERD,
+1,RICE    mama gold_10kg    13200,1002,"2    mama gold_10kg
+Name: DESC, dtype: object",13200,1,0,13200,,47:19.0
+2,RICE    mama gold_5kg    7200,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200,2,0,14500,,09:09.0
+3,RICE    mama gold_10kg    13200,1002,"2    mama gold_10kg
+Name: DESC, dtype: object",13200,4,0,52800,,18:17.1
+4,RICE    mama gold_5kg    7200,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.5,1,0,7200.5,customer was satisfied,20:21.3
+5,NOODLES    indomie_superpack_ carton    2800,1006,"6    indomie_superpack_ carton
+Name: DESC, dtype: object",2800,1,0,2800,,37:49.7
+6,ENGINE OIL    total_quartz_3000_1 litre    2500,1005,"5    total_quartz_3000_1 litre
+Name: DESC, dtype: object",2500,1,300,2200,,58:16.3
+1,NOODLES    indomie_superpack_ carton    2800,1006,"6    indomie_superpack_ carton
+Name: DESC, dtype: object",2800.0,9,0.0,25200.0,,2024-02-16 20:32:09.620831
+2,RICE    mama gold_5kg    7200,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,1,0.0,7200.0,,2024-02-16 20:41:44.319717
+3,NOODLES    indomie_superpack_ carton    2800,1006,"6    indomie_superpack_ carton
+Name: DESC, dtype: object",2800.0,4,0.0,11200.0,,2024-02-16 20:55:41.310102
+4,NOODLES    indomie_superpack_ carton    2800,1006,"6    indomie_superpack_ carton
+Name: DESC, dtype: object",2800.0,1,0.0,2800.0,,2024-02-16 21:02:18.208917
+5,ENGINE OIL    total_quartz_5000_1 litre    3500,1003,"3    total_quartz_5000_1 litre
+Name: DESC, dtype: object",3500.0,1,0.0,3500.0,,2024-02-16 21:02:30.111012
+6,RICE    mama gold_5kg    7200,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,3,0.0,21600.0,,2024-02-16 21:02:43.473155
+7,NOODLES    indomie_superpack_ carton    2800,1006,"6    indomie_superpack_ carton
+Name: DESC, dtype: object",2800.0,3,0.0,8400.0,,2024-02-16 21:02:56.220231
+8,RICE    mama gold_5kg,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,1,0.0,7200.0,,2024-02-16 22:48:28.735654
+9,RICE    mama gold_5kg,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,1,0.0,7200.0,,2024-02-16 23:20:42.008320
+10,RICE    mama gold_5kg,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,1,0.0,7200.0,,2024-02-16 23:20:44.236351
+11,RICE    mama gold_5kg,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,1,0.0,7200.0,,2024-02-16 23:20:46.388380
+12,RICE    mama gold_5kg,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,1,0.0,7200.0,,2024-02-16 23:21:47.508547
+13,RICE    mama gold_5kg,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,1,0.0,7200.0,,2024-02-16 23:21:48.765580
+14,RICE    mama gold_5kg,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,1,0.0,7200.0,,2024-02-16 23:21:50.172613
+15,RICE    mama gold_5kg,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,1,0.0,7200.0,,2024-02-16 23:21:51.619650
+15,RICE    mama gold_5kg,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,3,0.0,21600.0,,2024-02-17 14:12:38.319395
+16,RICE    mama gold_5kg,1001,"1    mama gold_5kg
+Name: DESC, dtype: object",7200.0,2,0.0,14400.0,,2024-02-17 14:13:57.104816
+17,ENGINE OIL    total_quartz_5000_1 litre,1003,"3    total_quartz_5000_1 litre
+Name: DESC, dtype: object",3500.0,3,0.0,10500.0,,2024-02-17 14:14:42.009094
