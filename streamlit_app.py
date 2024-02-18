@@ -3,8 +3,20 @@ import pandas as pd
 import numpy
 from matplotlib import pyplot
 
+streamlit.markdown(
+    """
+    <style>
+    textinput {
+        font-size: 3rem !important;
+    }
+    input {
+        font-size: 3rem !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
-# mutiple bar amount made v investment
 
 
 def salesRecords(sales_details):
@@ -47,254 +59,170 @@ def salesRecords(sales_details):
     #     return 'error in sales recording '
 
 #get all sales rcord
-def fetchSale(see_records):
-    # try:
-        if see_records[0] == 'ADMIN':  #for security purpose create a file to hold this password
-        # if  password is correct
-            df_fetch = pd.read_csv('SalesRecord.csv')
-        # dispay the file to user
-            streamlit.write(df_fetch)
-            count = len(df_fetch) -1
-        # calculate the sum  to user
-            total_sales = df_fetch['PRICE'].sum()
-            return f'You have made a total sales  of {total_sales}  naira. Number of sales is {count}'
-        else:
-            return 'wrong password'
-    # except:  # capture bug and error
-    #     return 'error in Registration'
+def fetchSale():
+    df_fetch = pd.read_csv('SalesRecord.csv')
+    streamlit.write(df_fetch)
+    count = len(df_fetch) -1
+    total_sales = df_fetch['PRICE'].sum()
+    return f'You have made a total sales  of {total_sales}  naira. Number of sales is {count}'
 
 #delete sales record
-def deleteSalesRecords(sales_delete):  #delet error in sales records
-    try:
-        if sales_delete[0] == 'ADMIN':
-            #proceed if password is admin
-            if sales_delete[1]: # if entry for row is not empty
-                df_fetch2 = pd.read_csv('SalesRecord.csv')
-                if sales_delete[1] < len(df_fetch2.index) : # get proper row
-                #drop the row df.index[-1]
-                    df_update_sales = df_fetch2.drop(df_fetch2.index[sales_delete[1]])
-                    df_update_sales.to_csv('SalesRecord.csv',index =False)  #do not add new index to update file
-                    return f'Row {sales_delete[1]} sales record is succesfully deleted '
-                else:
-                    return 'Row of record doesnt exist. Enter proper row number  '
-            else:
-                return ' you have not entered row number to delete'
+def deleteSalesRecords(sales_delete):
+    if sales_delete[0]:
+        df_fetch2 = pd.read_csv('SalesRecord.csv')
+        if sales_delete[0] < len(df_fetch2.index) :
+            df_update_sales = df_fetch2.drop(df_fetch2.index[sales_delete[0]])
+            df_update_sales.to_csv('SalesRecord.csv',index =False)  #do not add new index to update file
+            return f'Row {sales_delete[0]} sales record is succesfully deleted '
         else:
-            return " wrong password"
-    except:  # capture bug and error do not show it to ende user
-         return 'code error'
-
-def deleteAllSalesRecords(Allsales_delete):  #delet error in sales records
-    # try:
-    if Allsales_delete[0] == 'ADMIN':
-        df_fetch3 = pd.read_csv('SalesRecord.csv')
-                #drop all row df.index[-1]
-        df_update_all_sales = df_fetch3.drop(df_fetch3.index[1:])
-        df_update_all_sales.to_csv('SalesRecord.csv',index =False)  #do not add new index to update file
-        streamlit.write(df_update_all_sales)
-        return f' all sales record is succesfully deleted '
+            return 'Row of record doesnt exist. Enter proper row number  '
     else:
-        return " wrong password"
-    # except:  # capture bug and error do not show it to ende user
-    #     return 'error in Registration'
+        return ' you have not entered row number to delete'
+
+
+def deleteAllSalesRecords():
+    df_fetch3 = pd.read_csv('SalesRecord.csv')
+                #drop all row df.index[-1]
+    df_update_all_sales = df_fetch3.drop(df_fetch3.index[1:])
+    df_update_all_sales.to_csv('SalesRecord.csv',index =False)  #do not add new index to update file
+    streamlit.write(df_update_all_sales)
+    return f' all sales record is succesfully deleted '
 
 
 #fetch backuo sales record
-def fetchSale_bk(see_records):
-    # try:
-        if see_records[0] == 'ADMIN':  #for security purpose create a file to hold this password
-        # if  password is correct
-            df_fetch = pd.read_csv('SalesRecord_bk.csv')
+def fetchSale_bk():
+    df_fetch = pd.read_csv('SalesRecord_bk.csv')
         # dispay the file to user
-            streamlit.write(df_fetch)
-            count = len(df_fetch) -1
+    streamlit.write(df_fetch)
+    count = len(df_fetch) -1
         # calculate the sum  to user
-            total_sales = df_fetch['PRICE'].sum()
-            return f'You have made a total sales  of {total_sales}  naira. Number of sales is {count}'
-        else:
-            return 'wrong password'
-    # except:  # capture bug and error
-    #     return 'error in Registration'
+    total_sales = df_fetch['PRICE'].sum()
+    return f'You have made a total sales  of {total_sales}  naira. Number of sales is {count}'
 
 #data visualisation
-def hot(passentry):
-    if passentry[0] == 'ADMIN':
-        df_fetch_hot = pd.read_csv('SalesRecord.csv')
-        data= df_fetch_hot['ITEMS'].value_counts()
-        streamlit.bar_chart(data)
-            # fig =pyplot.savefig('hotsale.jpg')
-            # streamlit.pyplot(fig)
-    else:
-        return 'wrong password'
-    # except:  # capture bug and error
-    #     return 'error in Registration'
-def vol_sales(passvalue):
-    if passvalue[0] == 'ADMIN':
-        df_fetch_vol = pd.read_csv('SalesRecord.csv')
-        data = df_fetch_vol['QTY']
-        streamlit.line_chart(data)
+def hot():
+    df_fetch_hot = pd.read_csv('SalesRecord.csv')
+    data= df_fetch_hot['ITEMS'].value_counts()
+    streamlit.bar_chart(data)
 
-    else:
-        return 'wrong password'
-def stock_qty(passvalue1):
-    if passvalue1[0] == 'ADMIN':
-    #plotfor oty in stock
-        df_fetch_vis = pd.read_csv('Stock.csv')
-        y = df_fetch_vis['QTY_IN_STOCK']
-        x = df_fetch_vis['DESC']
+def vol_sales():
+    df_fetch_vol = pd.read_csv('SalesRecord.csv')
+    data = df_fetch_vol['QTY']
+    streamlit.line_chart(data)
 
-        fig, ax = pyplot.subplots()
-        ax.bar(x, y, width=0.25)
-        pyplot.xticks(rotation='vertical')
-        streamlit.pyplot(fig)
-    else:
-        return 'wrong password'
-def profit_track(passvalue2):
-    if passvalue2[0] == 'ADMIN':
-        # plot for mutliple bar chart investment vs gross sales
-        df_fetch_vis = pd.read_csv('Stock.csv')
-        a = df_fetch_vis['BULK_PRICE'].values.tolist()
-        b = df_fetch_vis['TOTAL_SALES_AMOUNT'].values.tolist()
-        r = numpy.arange(len(df_fetch_vis['BULK_PRICE']))
-        width = 0.25
-        fig, ax = pyplot.subplots()
-        ax.bar(r, a, width=width, label='Total cost price')
-        ax.bar(r + width, b, width=width, label='gross sales')
-        pyplot.xlabel('items')
-        pyplot.ylabel('Amount in Naira')
-        pyplot.title('Tracking gross sale vs cospt price for Profit')
-        c = df_fetch_vis['DESC'].values.tolist()
-        pyplot.xticks(r + width / 2, c, rotation=90)
-        pyplot.legend()
-        streamlit.pyplot(fig)
-    else:
-        return 'wrong password'
+def stock_qty():
+    df_fetch_vis = pd.read_csv('Stock.csv')
+    y = df_fetch_vis['QTY_IN_STOCK']
+    x = df_fetch_vis['DESC']
+    fig, ax = pyplot.subplots()
+    ax.bar(x, y, width=0.25)
+    pyplot.xticks(rotation='vertical')
+    streamlit.pyplot(fig)
 
-def storepix (passvalue3):
-    if passvalue3[0] == 'ADMIN':
-        df_fetch_store = pd.read_csv('Stock.csv')
-        data= df_fetch_store['DESC'].value_counts()
-        mylabel= df_fetch_store['DESC']
-        fig, ax = pyplot.subplots()
-        ax.pie(data,labels= mylabel)
-        streamlit.pyplot(fig)
-    else:
-        return 'wrong password'
+def profit_track():
+    df_fetch_vis = pd.read_csv('Stock.csv')
+    a = df_fetch_vis['BULK_PRICE'].values.tolist()
+    b = df_fetch_vis['TOTAL_SALES_AMOUNT'].values.tolist()
+    r = numpy.arange(len(df_fetch_vis['BULK_PRICE']))
+    width = 0.25
+    fig, ax = pyplot.subplots()
+    ax.bar(r, a, width=width, label='Total cost price')
+    ax.bar(r + width, b, width=width, label='gross sales')
+    pyplot.xlabel('items')
+    pyplot.ylabel('Amount in Naira')
+    pyplot.title('Tracking gross sale vs cospt price for Profit')
+    c = df_fetch_vis['DESC'].values.tolist()
+    pyplot.xticks(r + width / 2, c, rotation=90)
+    pyplot.legend()
+    streamlit.pyplot(fig)
+
+
+def storepix ():
+    df_fetch_store = pd.read_csv('Stock.csv')
+    data= df_fetch_store['QTY_IN_STOCK']
+    mylabel = df_fetch_store['DESC']
+    fig, ax = pyplot.subplots()
+    ax.pie(data,labels= mylabel)
+    streamlit.pyplot(fig)
 
 
 
 #fetchStock
-def fetchStock(see_stkrecords):
-    # try:
-        if see_stkrecords[0] == 'SECRET':  #for security purpose create a file to hold this password
-        # if  password is Admin
-            df_fetchstk = pd.read_csv('Stock.csv')
-        # dispay the file to user
-            streamlit.write(df_fetchstk)
-            count = len(df_fetchstk)
+def fetchStock():
+    df_fetchstk = pd.read_csv('Stock.csv')
+    streamlit.write(df_fetchstk)
+    count = len(df_fetchstk)
         # calculate the sum  to user
-            total_stock_price = df_fetchstk['BULK_PRICE'].sum()
-            Sales_made = df_fetchstk['TOTAL_SALES_AMOUNT'].sum()
+    total_stock_price = df_fetchstk['BULK_PRICE'].sum()
+    Sales_made = df_fetchstk['TOTAL_SALES_AMOUNT'].sum()
+    return f'Sales made so far is {Sales_made}. Total Investement sum is {total_stock_price} Naira for  {count} stock records'
 
-            return f'Sales made so far is {Sales_made}. Total Investement sum is {total_stock_price} Naira for  {count} stock records'
-        else:
-            return 'wrong password'
-    # except:  # capture bug and error
-    #     return 'error in Registration'
 ######## edit a stock file
-def editing(usersupdate):  #df.at[index,col label] = new value
-    if usersupdate[0] == 'SECRET':
-        #proceed if password is admin
-        if usersupdate[1] == 0:  #2
+def editing(usersupdate):
+        if usersupdate[0] == 0:  #2
             return ' enter index or row  number to edit '
-        elif usersupdate[2] == '': #desc
+        elif usersupdate[1] == '': #desc
             return ' enter column name to edit'
-        elif usersupdate[3] == '':
+        elif usersupdate[2] == '':
             return ' enter new values '
-        elif usersupdate: # not empy
-
+        elif usersupdate:
             df_update = pd.read_csv('Stock.csv')
-            df_update.at[usersupdate[1], usersupdate[2]] = usersupdate[3]
+            df_update.at[usersupdate[0], usersupdate[1]] = usersupdate[2]
             df_update.to_csv('Stock.csv',index = False)
             df_update.to_csv('Stock_main.csv', index = False) #backup
             return ' file has been update '
         else:
             return 'no entry found'
-    else:
-        return 'wrong password'
+
 def deleteStockRecords(stock_delete):
-    # try:
-        if stock_delete[0] == 'SECRET':
-            #proceed if password is admin
-            if stock_delete[1]: # if entry for row is not empty
-                df_fetchstk = pd.read_csv('Stock.csv')
-                if stock_delete[1] < len(df_fetchstk.index) : # get proper row
-                #drop the row df.index[-1]
-                    df_update_stock = df_fetchstk.drop(df_fetchstk.index[stock_delete[1]])
-                    df_update_stock.to_csv('Stock.csv',index =False)  #do not add new index to update file
-                    return f'Row {stock_delete[1]} sales record is succesfully deleted '
-                else:
-                    return 'Row of record doesnt exist. Enter proper row number  '
-            else:
-                return ' you have not entered row number to delete'
+    if stock_delete[0]: # if entry for row is not empty
+        df_fetchstk = pd.read_csv('Stock.csv')
+        if stock_delete[0] < len(df_fetchstk.index) :
+            df_update_stock = df_fetchstk.drop(df_fetchstk.index[stock_delete[0]])
+            df_update_stock.to_csv('Stock.csv',index =False)  #do not add new index to update file
+            return f'Row {stock_delete[0]} sales record is succesfully deleted '
         else:
-            return " wrong password"
-    # except:  # capture bug and error do not show it to ende user
-    #      return 'code error'
+            return 'Row of record doesnt exist. Enter proper row number  '
+    else:
+         return ' you have not entered row number to delete'
+
 
 #deleteAllstockRecords
-def deleteAllstockRecords(Allstk_delete):  #delet error in sales records
-    # try:
-    if Allstk_delete[0] == 'SECRET':
+def deleteAllstockRecords():
         df_fetch3 = pd.read_csv('Stock.csv')
-                #drop all row df.index[-1]
         df_update_all_stk = df_fetch3.drop(df_fetch3.index[1:])
         df_update_all_stk.to_csv('Stock.csv',index =False)  #do not add new index to update file
         streamlit.write(df_update_all_stk)
         return f' all sales record is succesfully deleted '
-    else:
-        return " wrong password"
-    # except:  # capture bug and error do not show it to ende user
-    #     return 'error in Registration'
-def fetchliveStock(see_stklive):
-    # try:
-    if see_stklive[0] == 'SECRET':  # for security purpose create a file to hold this password
-        # if  password is Admin
-        #a temp file to hold one sales record to reduce stock at a time
-        df_fetchtempsales = pd.read_csv('SalestempRecord.csv')
-        df_fetchstock = pd.read_csv('Stock.csv') # keep a copy of mainstock eleswhere
-        # streamlit.write(df_fetchtempsales)
 
-        for j in range(len(df_fetchtempsales)):  #use df.at it uses index and col label to pick a cell
-            for i in range(len(df_fetchstock)):
-                #the index where stockid in both dframes matched
-                if  df_fetchtempsales.at[j,'STOCK_ID'] ==df_fetchstock.at[i,'STOCK_ID']:
-                    diff_in_qty = df_fetchstock.at[i,'QTY_IN_STOCK'] - df_fetchtempsales.at[j, 'QTY']
+def fetchliveStock():
+    df_fetchtempsales = pd.read_csv('SalestempRecord.csv')
+    df_fetchstock = pd.read_csv('Stock.csv')
+    for j in range(len(df_fetchtempsales)):  #use df.at it uses index and col label to pick a cell
+        for i in range(len(df_fetchstock)):
+            if  df_fetchtempsales.at[j,'STOCK_ID'] ==df_fetchstock.at[i,'STOCK_ID']:
+                diff_in_qty = df_fetchstock.at[i,'QTY_IN_STOCK'] - df_fetchtempsales.at[j, 'QTY']
                     # UPdate stock record qty
-                    df_fetchstock.at[i,'QTY_IN_STOCK'] = diff_in_qty
+                df_fetchstock.at[i,'QTY_IN_STOCK'] = diff_in_qty
 
-                    #calculate amount sold
-                    amount_sold = df_fetchstock.at[i,'TOTAL_SALES_AMOUNT'] + df_fetchtempsales.at[j,'PRICE']
-                    df_fetchstock.at[i, 'TOTAL_SALES_AMOUNT'] = amount_sold
-                    profit_made = df_fetchstock.at[i, 'TOTAL_SALES_AMOUNT'] -df_fetchstock.at[i, 'BULK_PRICE']
-                    #update record
-                    df_fetchstock.at[i, 'PROFIT'] = profit_made
-                    #update the stock file
-                    df_fetchstock.to_csv('Stock.csv', index=False)
-                    #go to necxt row in df_fetchtempsales until finished
+                #calculate amount sold
+                amount_sold = df_fetchstock.at[i,'TOTAL_SALES_AMOUNT'] + df_fetchtempsales.at[j,'PRICE']
+                df_fetchstock.at[i, 'TOTAL_SALES_AMOUNT'] = amount_sold
+                profit_made = df_fetchstock.at[i, 'TOTAL_SALES_AMOUNT'] -df_fetchstock.at[i, 'BULK_PRICE']
+                #update record
+                df_fetchstock.at[i, 'PROFIT'] = profit_made
+                #update the stock file
+                df_fetchstock.to_csv('Stock.csv', index=False)
+                #go to necxt row in df_fetchtempsales until finished
 
         # print out the live stocking when for lopp finishes
-        df_fetchstocklive = pd.read_csv('Stock.csv')
-        streamlit.write(df_fetchstocklive)  # it holds THE LIVE STOCK after the for loop
+    df_fetchstocklive = pd.read_csv('Stock.csv')
+    streamlit.write(df_fetchstocklive)  # it holds THE LIVE STOCK after the for loop
         #drop the row in SalestempRecord.csv where the qty has been update in stock
-        df_fetchtempsales_update = df_fetchtempsales.drop(df_fetchtempsales.index[:])                    #evry time index =1 is drop, the next item becomes index 1 in temp file
-        df_fetchtempsales_update.to_csv('SalestempRecord.csv', index =False)
+    df_fetchtempsales_update = df_fetchtempsales.drop(df_fetchtempsales.index[:])                    #evry time index =1 is drop, the next item becomes index 1 in temp file
+    df_fetchtempsales_update.to_csv('SalestempRecord.csv', index =False)
         # streamlit.write(df_fetchtempsales_update)
 
-    else:
-        return 'wrong password'
-# except:  # capture bug and error
-#     return 'error in code'
 #stock entry stckRecords
 def stckRecords(stock_details):
     # try:
@@ -411,17 +339,15 @@ def main():
 
     #  ----- fetch all sales records interface
     # give a title
-    streamlit.title('MY Sales Now Now')
+    streamlit.title('MY Sales RECORDS ')
     # sub section
     streamlit.subheader('Admins only')
 
-    admin_password = streamlit.text_input('enter password', value="", key='salpass')
-    admin_password_upper = admin_password.upper().strip()
     fetchsale = ""  # declare this variable to hold result like empty list
 
-    if streamlit.button('See all Sales', key='fetsale'):
+    if streamlit.button('SEE ALL SALES', key='fetsale'):
         # fetchRecords ...call the function to process input
-        fetchsale = fetchSale([admin_password_upper])
+        fetchsale = fetchSale()
     streamlit.success(fetchsale)
 
 
@@ -431,16 +357,16 @@ def main():
                                        step=1, key='delrows')
     # admin_del_upper = admin_del.upper().strip()
     delectesal = ""
-    if streamlit.button('Delete one Sales Record', key='delsal'):
-        delectesal = deleteSalesRecords([admin_password_upper, int(admin_del)])
+    if streamlit.button('DELETE SALES ROW', key='delsal'):
+        delectesal = deleteSalesRecords([int(admin_del)])
     streamlit.success(delectesal)  # return the result
 
     # DELeTING all sales RECORDS for new business day or week or month
     #a bacup file salesrecord2 in case of loss of sales record
 
     delecteallsal = ""
-    if streamlit.button('Delete All Sales Record', key='delallsal'):
-        delecteallsal = deleteAllSalesRecords([admin_password_upper])
+    if streamlit.button('DELETE ALL SALES', key='delallsal'):
+        delecteallsal = deleteAllSalesRecords()
     streamlit.success(delecteallsal)  # return the result
 
 
@@ -450,39 +376,39 @@ def main():
 
     if streamlit.button('Recover Sales Records', key='fetbksale'):
         # fetchRecords ...call the function to process input
-        fetchbksale = fetchSale_bk([admin_password_upper])
+        fetchbksale = fetchSale_bk()
     streamlit.success(fetchbksale)
 ### data analytic
     streamlit.header('Data Analytic - visualisation')
     col1, col2, col3, col4,col5 = streamlit.columns((1, 1, 1,1,1))  # layout element
     with col1:
         hotsales = ""
-        if streamlit.button('hottest selling item', key='hotsal'):
-            hotsales = hot([admin_password_upper])
+        if streamlit.button('HOT SELLING', key='hotsal'):
+            hotsales = hot()
         streamlit.success(hotsales)  # return the result
     with col2:
         # qty sold per time
         selltimes = ""
-        if streamlit.button('sales volume', key='timesal'):
-            selltimes = vol_sales([admin_password_upper])
+        if streamlit.button('SALES VOLUME', key='timesal'):
+            selltimes = vol_sales()
         streamlit.success(selltimes)  # return the result
     with col3:
         # qty in stock left
         stkoty = ""
-        if streamlit.button('Stock taking', key='stkoty'):
-            stkoty = stock_qty([admin_password_upper])
+        if streamlit.button('TAKE STOCK', key='stkoty'):
+            stkoty = stock_qty()
         streamlit.success(stkoty)  # return the result
     with col4:
         # track gros sales v cost price  for profit
         profitstk = ""
-        if streamlit.button('profit tracker', key='stkpro'):
-            profitstk = profit_track([admin_password_upper])
+        if streamlit.button('PROFIT TRACKER', key='stkpro'):
+            profitstk = profit_track()
         streamlit.success(profitstk)  # return the result
     with col5:
         # distribution of goods in stor
         stkgoods = ""
-        if streamlit.button('goods in store', key='stkgoods'):
-            stkgoods = storepix([admin_password_upper])
+        if streamlit.button('% GOODS IN STORE', key='stkgoods'):
+            stkgoods = storepix()
         streamlit.success(stkgoods)  # return the result
 
 
@@ -490,13 +416,11 @@ def main():
     # give a title
     streamlit.title('Check Inventory & stock taking ')
 
-    admin_stk_password = streamlit.text_input('enter password', value="", key='stkpass')
-    admin_stk_password_upper = admin_stk_password.upper().strip()
     fetchstk = ""  # declare this variable to hold result like empty list
 
-    if streamlit.button('Check Store', key='fetstck'):
+    if streamlit.button('CHECK STORE', key='fetstck'):
         # fetchRecords ...call the function to process input
-        fetchstk = fetchStock([admin_stk_password_upper])
+        fetchstk = fetchStock()
     streamlit.success(fetchstk)
 
     # admin
@@ -504,21 +428,24 @@ def main():
     streamlit.subheader('Edit Stock --- ---  ---')
     col1, col2, col3 = streamlit.columns((1, 1, 1))  # layout element
     with col1:
-        Enter_row_number = streamlit.number_input('Enter_row_number ', min_value=0, max_value=10000, value=0, step=1,
+        Enter_row_number = streamlit.number_input('INPUT ROW ', min_value=0, max_value=10000, value=0, step=1,
                                                   key='rowno')
         Enter_row_number = int(Enter_row_number)
     with col2:
-        Enter_col_title = streamlit.text_input('Enter_col_title', value="", key='colabel')
-        Enter_col_title_cl = Enter_col_title.upper().strip()  # col must match the document
+        df_col = pd.read_csv('Stock_col.csv')
+        selected_item = streamlit.selectbox("SELECT COLUMN", df_col['COL_TITLE'], key='colabel')
+        Enter_col_title_cl = str(selected_item)
+        # Enter_col_title = streamlit.text_input('Enter_col_title', value="", key='colabel')
+        # Enter_col_title_cl = Enter_col_title.upper().strip()  # col must match the document
     with col3:
-        Enter_new_value = streamlit.text_input('Enter_new_value', value="", key='newval')
+        Enter_new_value = streamlit.text_input('INPUT_NEW VALUE', value="", key='newval')
         Enter_new_value_cl = Enter_new_value.strip()
 
     edit = ""  # declare this variable to hold result like empty list
 
-    if streamlit.button('edit file', key='ed'):
+    if streamlit.button('EDIT FILE', key='ed'):
         # Reg ...call the function to process input
-        edit = editing([admin_stk_password_upper, Enter_row_number, Enter_col_title_cl, Enter_new_value_cl])
+        edit = editing([Enter_row_number, Enter_col_title_cl, Enter_new_value_cl])
 
     streamlit.success(edit)
 
@@ -526,28 +453,28 @@ def main():
     streamlit.subheader( 'Delete Stock ----          ----           ----       ----')
     col1, col2 = streamlit.columns((1, 1))  # layout element
     with col1:
-        admin_del = streamlit.number_input('enter row number of record to delete', min_value=0, max_value=1000000, value=0,
+        row_del = streamlit.number_input('INPUT ROW TO DELETE', min_value=0, max_value=1000000, value=0,
                                            step=1, key='delstkrows')
 
         delectestk = ""
-        if streamlit.button('Delete one stock Record', key='delstk'):
-            delectestk = deleteStockRecords([admin_stk_password_upper, int(admin_del)])
+        if streamlit.button('DELETE STOCK RECORD', key='delstk'):
+            delectestk = deleteStockRecords([int(row_del)])
         streamlit.success(delectestk)  # return the result
 
         # DELeTING all stock  RECORDS
 
     delecteallstk = ""
-    if streamlit.button('Delete All Stock Record', key='delallstk'):
-        delecteallstk = deleteAllstockRecords([admin_stk_password_upper])
+    if streamlit.button('Delete All STOCK', key='delallstk'):
+        delecteallstk = deleteAllstockRecords()
     streamlit.success(delecteallstk)  # return the result
 
     #### getting live inventory
     streamlit.subheader(' latest inventory')
     fetchstklive = ""  # declare this variable to hold result like empty list
 
-    if streamlit.button('See latest inventory', key='fetlivstck'):
+    if streamlit.button('TAKE STOCK', key='fetlivstck'):
         # fetchRecords ...call the function to process input
-        fetchstklive = fetchliveStock([admin_stk_password_upper])
+        fetchstklive = fetchliveStock()
     streamlit.success(fetchstklive)
 
     # upload stock
@@ -567,30 +494,32 @@ def main():
         Enter_stk_id = int(Enter_stk_id)
 
 
-        Enter_stk_items = streamlit.text_input('enter stock category name', value="", key='stckitems')
+        Enter_stk_items = streamlit.text_input('ITEM CATEGORY', value="", key='stckitems')
         Enter_stk_items_cl = Enter_stk_items.upper().strip()  # pass an upper
 
-        Enter_stk_Desc = streamlit.text_input('stock item description', value="", key='stkdesc')
+        Enter_stk_Desc = streamlit.text_input('ITEM DESCRIPTION', value="", key='stkdesc')
         Enter_stk_Desc_cl = Enter_stk_Desc.upper().strip()  # pass an upper
 
-        Enter_stk_oty = streamlit.number_input('enter quantity ', min_value=0, max_value=1000000, value=0, step=1,
+        Enter_stk_oty = streamlit.number_input('QUANTITY ', min_value=0, max_value=1000000, value=0, step=1,
                                                key='stkqty')
         Enter_stk_oty = int(Enter_stk_oty)
 
-        Enter_stk_price = streamlit.number_input('enter cost price of stock', min_value=0.00, max_value=1000000000.00,
+        Enter_stk_price = streamlit.number_input('TOTAL COST PRICE', min_value=0.00, max_value=1000000000.00,
                                                  value=0.00, step=1.00, key='stkprice')
         Enter_stk_price = int(Enter_stk_price)
         Enter_amount_made = 0
         Enter_profit_made = 0
-        Enter_stk_uprice = streamlit.number_input('enter selling unit price of stock', min_value=0.00,
+        Enter_stk_uprice = streamlit.number_input('ENTER UNIT PRICE', min_value=0.00,
                                                   max_value=1000000000.00,
                                                   value=0.00, step=1.00, key='unstkprice')
         Enter_stk_uprice = int(Enter_stk_uprice)
 
-        Enter_stk_notes = streamlit.text_input('enter  observation about product if any', value="", key='stkob')
+        Enter_stk_notes = streamlit.text_input('OBSERVATION', value="", key='stkob')
 
         current_time = pd.Timestamp.now()
-        time_stk = streamlit.text_input('date and Time of stock', value=current_time, key='stktim')
+        streamlit.write('TIMER:', current_time)
+        time_stk = current_time
+
         submit = streamlit.form_submit_button(label="Upload stock")
     stockrecords = ""  # declare this variable to hold result like empty list
 
@@ -611,7 +540,7 @@ if __name__ == '__main__':
     main()
 
 # web app  on your desktop local host
-#run  on your pycharm terminal ' streamlit run SalesManager.py '
+#run  on your pycharm terminal ' streamlit run Sales.py '
 
 
 
